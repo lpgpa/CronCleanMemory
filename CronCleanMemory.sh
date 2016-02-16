@@ -1,7 +1,7 @@
 #!/bin/bash
 # 
 #
-# CleanMemory.sh 
+# CronCleanMemory.sh 
 #
 # Version 1.0
 # Creation Date - 16/02/2016
@@ -13,7 +13,7 @@
 # Email: lpgpalmeida@gmail.com
 #
 # To run the script just set the execute permissions:
-# Chmod +x CleanMemory.sh or chmod 711 CleanMemory.sh
+# Chmod +x CronCleanMemory.sh or chmod 711 CronCleanMemory.sh
 # But you have to be to run the system root and
 # If you want to use the script in any directory for copying:
 # /usr/bin with the proper execute permissions.
@@ -28,12 +28,12 @@ if [ "$(id -u)" = "0" ]
 		then
 
 		# Sets maximum size to request cleaning in memory
-		MemSet=2500
+		MemSet=2000
 
 		# Returns information direct memory used
 
-		MemUsed=$(free -m -t | grep Mem: | cut -c37-40)
-			if test "$MemUsed" -gt <= "$MemSet"
+		MemFree=$(free -m -t | grep Mem: | cut -c37-40)
+			if test "$MemFree" -gt  "$MemSet"
 				then
 					# Command to synchronize memory data with HD, 
 					# if not used the sync is possible loss of memory data to HD
@@ -41,7 +41,12 @@ if [ "$(id -u)" = "0" ]
 					
 					# Area of memory being cleaned					
 					echo 3 > /proc/sys/vm/drop_caches
-			fi
+					echo $MemSet
+					echo $MemFree
+				else
+					echo ok $MemSet
+					echo ok $MemFree
+				fi      
 		else
 			echo Please dear user log in as root or sudo command
 fi
