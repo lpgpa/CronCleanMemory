@@ -23,30 +23,18 @@
 #
 # Enter comment below with changes / corrections / improvements to the script
 
-# Check whether the root to run the script
-if [ "$(id -u)" = "0" ]		
+
+# Sets maximum size to request cleaning in memory
+MemSet=2000
+
+# Returns information direct memory used
+
+MemFree=$(free -m -t | grep Mem: | cut -c37-40)
+	if test "$MemSet" -gt  "$MemFree"
 		then
-
-		# Sets maximum size to request cleaning in memory
-		MemSet=2000
-
-		# Returns information direct memory used
-
-		MemFree=$(free -m -t | grep Mem: | cut -c37-40)
-			if test "$MemFree" -gt  "$MemSet"
-				then
-					# Command to synchronize memory data with HD, 
-					# if not used the sync is possible loss of memory data to HD
-					sync
-					
-					# Area of memory being cleaned					
-					echo 3 > /proc/sys/vm/drop_caches
-					echo $MemSet
-					echo $MemFree
-				else
-					echo ok $MemSet
-					echo ok $MemFree
-				fi      
-		else
-			echo Please dear user log in as root or sudo command
+		# Command to synchronize memory data with HD, 
+		# if not used the sync is possible loss of memory data to HD
+		sync
+		# Area of memory being cleaned					
+		echo 3 > /proc/sys/vm/drop_caches
 fi
