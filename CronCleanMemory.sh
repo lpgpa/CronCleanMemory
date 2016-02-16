@@ -35,7 +35,8 @@ if [ "$(id -u)" = "0" ]
 		MemUsed=$(free -m -t | grep Mem: | cut -c37-40)
 			if test "$MemUsed" -gt <= "$MemSet"
 				then
-					# Command to synchronize memory data with HD, if not used the sync is possible loss of memory data to HD
+					# Command to synchronize memory data with HD, 
+					# if not used the sync is possible loss of memory data to HD
 					sync
 					
 					# Area of memory being cleaned					
